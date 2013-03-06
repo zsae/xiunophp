@@ -1,0 +1,21 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<style type="text/css">
+body {font-family:"微软雅黑"}
+dt {font-weight: 800;}
+</style>
+</head>
+<body>
+
+<div style="width: 50%; padding: 1em;">
+	<h3><?php echo $msg;?></h3>
+	<?php if($jumpurl) {?>
+		<a href="<?php echo $jumpurl;?>">页面3秒后将自动跳转到：<?php echo $jumpurl;?></a>
+		<script type="text/javascript">
+		setTimeout(function() {window.location='<?php echo $jumpurl;?>';}, 3000);
+		</script>
+	<?php }?>
+</div>
+</body>
+</html>

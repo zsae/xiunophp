@@ -1,4 +1,4 @@
-﻿<?php
+<?php
  
 /*
  * Copyright (C) xiuno.com

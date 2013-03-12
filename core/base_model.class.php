@@ -478,7 +478,7 @@ class base_model {
 	
 	// 原生的API，准确，但速度慢，仅仅在统计或者同步的时候调用。
 	public function index_maxid() {
-		return $this->db->index_maxid($this->table.'-'.$this->maxcol);
+		return isset($this->maxcol) ? $this->db->index_maxid($this->table.'-'.$this->maxcol) : 0;
 	}
 	
 	// 原生的API，准确，但速度慢，仅仅在统计或者同步的时候调用。

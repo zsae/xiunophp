@@ -47,7 +47,7 @@ dt {font-weight: 800;}
 				<td><?php echo $k;?></td> 
 				<td><?php echo $backtrace['file'];?></td> 
 				<td><?php echo $backtrace['line'];?></td> 
-				<td><?php echo $backtrace['class'];?><?php echo $backtrace['type'];?><?php echo $backtrace['function'];?>(<?php echo nl2br(htmlspecialchars($backtrace['args']));?>)</td> 
+				<td><?php if(!empty($backtrace['class'])) {?><?php echo $backtrace['class'];?><?php echo $backtrace['type'];?><?php echo $backtrace['function'];?>(<?php echo nl2br(htmlspecialchars($backtrace['args']));?>)<?php }?></td> 
 			</tr>
 			<tr>
 				<td colspan="4"><div style="height: 1px; background: #bbb; overflow: hidden;"></div></td>

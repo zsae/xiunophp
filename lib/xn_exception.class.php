@@ -40,25 +40,31 @@ class xn_exception {
 			$args = $comma = '';
 			if(!empty($v['args'])) {
 				if(DEBUG > 1) {
-					foreach((array)$v['args'] as $arg) {
-						if(is_string($arg)) {
-							$args .= $comma."'$arg'";
-						} elseif(is_object($arg)) {
-							$args .= $comma."Object";
-						} elseif(is_array($arg)) {
-							// 针对XN 优化
-							if(!isset($arg['db'])) {
-								$arg = htmlspecialchars(print_r($arg, 1));
+					if($v['function'] == 'error_handle') {
+						$v['class'] = '';
+						$v['function'] = '';
+						$args = '';
+					} else {
+						foreach((array)$v['args'] as $arg) {
+							if(is_string($arg)) {
+								$args .= $comma."'$arg'";
+							} elseif(is_object($arg)) {
+								$args .= $comma."Object";
+							} elseif(is_array($arg)) {
+								// 针对XN 优化
+								if(!isset($arg['db'])) {
+									$arg = print_r($arg, 1);
+								} else {
+									$arg = '$conf';
+								}
+								//$arg = str_replace(array("\t", ' '), array('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', '&nbsp;'), $arg);
+								//$arg = nl2br($arg);
+								$args .= $comma.$arg;
 							} else {
-								$arg = '$conf = array()';
+								$args .= $comma.$arg;
 							}
-							$arg = str_replace(array("\t", ' '), array('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;', '&nbsp;'), $arg);
-							$arg = nl2br($arg);
-							$args .= $comma.$arg;
-						} else {
-							$args .= $comma.$arg;
+							$comma = ', ';
 						}
-						$comma = ', ';
 					}
 				} else {
 					$args = '';
@@ -79,7 +85,8 @@ class xn_exception {
 				'args'=>$args,
 			);
 		}
-		array_shift($backtracelist);
+		// array_shift($backtracelist);
+		// array_shift($backtracelist);
 		
 		$codelist = self::get_code($file, $line);
 		

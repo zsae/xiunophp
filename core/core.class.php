@@ -639,6 +639,7 @@ class core {
 			header("Cache-Control: private, post-check=0, pre-check=0, max-age=0");
 			header("Pragma: no-cache");
 		}
+		
 	}
 	
 	public static function run(&$conf) {

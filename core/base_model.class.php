@@ -310,7 +310,8 @@ class base_model {
 		$this->user->set(1, array('username'=>'zhangsan', 'email'=>'zhangsan@gmail.com'));
 		$this->user->set(array(1, 2), array('username'=>'zhangsan', 'email'=>'zhangsan@gmail.com'));
 	*/
-	public function set($key, $arr) {
+	// $life 参数为过期时间，预留给 model class 重载
+	public function set($key, $arr, $life = 0) {
 		$key = $this->to_key($key);
 		$this->unique[$key] = $arr;
 		return $this->db_cache_set($key, $arr);

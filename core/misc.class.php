@@ -11,10 +11,10 @@ class misc {
 	}
 	
 	/*
-		misc::page('?thread-index.htm');
-		misc::page('thread-index.htm');
-		misc::page('index.php');
-		misc::page('index.php?a=b');
+		misc::pages('?thread-index.htm', 100, 1, 20);
+		misc::pages('thread-index.htm', 100, 1, 20);
+		misc::pages('index.php', 100, 1, 20);
+		misc::pages('index.php?a=b', 100, 1, 20);
 	*/
 	public static function pages($url, $totalnum, $page, $pagesize = 20) {
 		// ?xxx.htm 认为也是支持 rewrite 格式的

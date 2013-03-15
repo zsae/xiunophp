@@ -371,8 +371,6 @@ class core {
 		    [xxx] => 123
 		    [yyy] => ddd
 		    [page] => 2
-		    [m] => user
-		    [a] => login
 		)
 		
 	   测试: http://www.domain.com/xn/framework2.0/?a-b.htm?c=d&e=http%3A%2F%2F1111.sss.com%2Ff.htm

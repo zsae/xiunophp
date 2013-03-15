@@ -4,42 +4,6 @@
  * Copyright (C) xiuno.com
  */
 
-/*
-	[Xiuno：代码就是文档！]
-	
-	什么是 db.interface.php 呢，它是一个DB的接口规范的定义。 听起来很抽象，其实就是你不用关心 db_mysql.class.php db_pdo.class.php db_mongodb.class.php ... 的实现。
-	只需要知道这个接口的参数怎么传，返回的结果是什么即可，那些类里面都会乖乖的实现这几个方法。
-	
-	比如我们要操作 mysql:
-	
-	// 配置数据库的相关信息，这里支持主从多台MySQL，为了做演示，我们只配置一台。
-	$dbconf = array(
-		// 主 MySQL Server
-		'master' => array (
-				'host' => '127.0.0.1',
-				'user' => 'root',
-				'password' => 'root',
-				'name' => 'test',
-				'charset' => 'utf8',
-				'tablepre' => 'xn_',
-				'engine'=>'MyISAM',
-		),
-		// 从 MySQL Server
-		'slaves' => array (
-		)
-	);
-	
-	// 实例化
-	$db = new db_mysql($dbconf);
-	
-	// 开始操作DB
-	
-	// 取一条记录, uid 为主键名字，这里有个约定，第一列为表名，后面的为 字段名-字段值 这样成对出现
-	$user = $db->get("user-uid-$uid");
-	
-	
-
-*/
 if(!defined('FRAMEWORK_PATH')) {
 	exit('FRAMEWORK_PATH not defined.');
 }
@@ -162,12 +126,6 @@ interface db_interface {
 	
 	// 取记录总数
 	$db->count('user');
-	
-	// 遍历
-	$uid = $db->maxid('user-uid');  // 取最大的UID
-	$uids = array();
-	for($i=0; $i<$uid; $i++) $uids[] = $i;
-	$userlist = $db->get($uids);
 	
 */
 

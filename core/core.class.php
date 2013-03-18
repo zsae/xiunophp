@@ -479,7 +479,7 @@ class core {
 	// 对于包含的目标文件进行处理，生成 bbs_common_control.class.php 
 	// 约定 include BBS_PATH.'xxx/xxx.php'; 这样的格式。避免 eval() 解析。
 	public static function process_include(&$conf, &$s) {
-		preg_match_all('#\r\n\s*include\s+(\w+)\.[\'"]([^;]+)[\'"];#is', $s, $m);
+		preg_match_all('#[\r\n]{1,2}\s*include\s+(\w+)\.[\'"]([^;]+)[\'"];#is', $s, $m);
 		if(!empty($m[1])) {
 			foreach($m[1] as $k=>$path) {
 				$realpath = constant($m[1][$k]).$m[2][$k];

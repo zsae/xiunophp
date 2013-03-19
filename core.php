@@ -47,7 +47,7 @@ if(!defined('FRAMEWORK_LOG_PATH')) {
 }
 
 // runtime file
-if(DEBUG) {
+if(DEBUG > 0) {
 	
 	// 包含基础的类：初始化相关
 	include FRAMEWORK_PATH.'core/core.class.php';

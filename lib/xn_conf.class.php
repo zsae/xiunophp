@@ -10,8 +10,6 @@
  */
 class xn_conf  {
 	
-	public $configs = array();
-	
 	private $configfile = '';
 	private $content = '';
 	public $kv = array();

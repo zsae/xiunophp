@@ -61,7 +61,7 @@ class xn_exception {
 								//$arg = nl2br($arg);
 								$args .= $comma.$arg;
 							} else {
-								$args .= $comma.$arg;
+								$args .= $comma.''.($arg === NULL ? 'NULL' : $arg);
 							}
 							$comma = ', ';
 						}

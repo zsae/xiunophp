@@ -487,19 +487,27 @@ class base_model {
 		return $this->db->index_count($this->table, $cond);
 	}
 	
-	// 从 arr 中提取 key string
+	// arr + primary -> key
 	public function get_key($arr) {
 		$s = $this->table;
-		foreach($this->primarykey as $v) {
-			$s .= "-$v-".$arr[$v];
+		foreach($this->primarykey as $k) {
+			$v = $arr[$k];
+			/*if(!is_numeric($v) && strpos($v, '-') !== FALSE) {
+				$v = core::urlencode($v);
+			}*/
+			$s .= "-$k-".$arr[$v];
 		}
 		return $s;
 	}
 	
-	// 数组 to key
+	// 简易数组 + primary -> key
 	public function to_key($key) {
 		$s = $this->table;
 		foreach((array)$key as $k=>$v) {
+			/*if(!is_numeric($v) && strpos($v, '-') !== FALSE) {
+				$v = core::urlencode($v);
+				//throw new Exception('key $key 中包含字符： -');
+			}*/
 			$s .= '-'.$this->primarykey[$k].'-'.$v;
 		}
 		return $s;

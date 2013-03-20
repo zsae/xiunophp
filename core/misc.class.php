@@ -435,7 +435,7 @@ class misc {
 	}
 		
 	// 多线程抓取数据，需要CURL支持，一般在命令行下执行，此函数收集互联网，由 xiuno 整理。
-	public function multi_fetch_url($urls) {
+	public static function multi_fetch_url($urls) {
 		$multi_handle = curl_multi_init();
 		foreach ($urls as $i => $url) {
 			$conn[$i] = curl_init($url);

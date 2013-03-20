@@ -240,6 +240,6 @@ class index_control extends base_control {
 
 $url = $app_url."?index-hello.htm";
 
-echo "应用框架代码生成完毕！，请访问：<a href=\"$url\">$url</a>";
+echo "应用框架代码生成完毕！请拷贝 xiunophp 到当前目录！然后访问：<a href=\"$url\">$url</a>";
 
 ?>

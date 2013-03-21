@@ -434,6 +434,43 @@ class misc {
 		}
 	}
 	
+	// 多线程抓取数据，需要CURL支持，一般在命令行下执行，此函数收集互联网，由 xiuno 整理。
+	public static function multi_fetch_url($urls) {
+		if(!function_exists('curl_multi_init')) {
+			$data = array();
+			foreach($urls as $k=>$url) {
+				$data[$k] = self::fetch_url($url);
+			}
+			return $data;
+		}
+		$multi_handle = curl_multi_init();
+		foreach ($urls as $i => $url) {
+			$conn[$i] = curl_init($url);
+			curl_setopt($conn[$i], CURLOPT_RETURNTRANSFER, 1);
+			$timeout = 3;
+			curl_setopt($conn[$i], CURLOPT_CONNECTTIMEOUT, $timeout); // 超时 seconds
+			curl_setopt($conn[$i], CURLOPT_FOLLOWLOCATION, 1);
+			//curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1);
+			curl_multi_add_handle($multi_handle, $conn[$i]);
+		}
+		do {
+			$mrc = curl_multi_exec($multi_handle, $active);
+		} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+		while ($active and $mrc == CURLM_OK) {
+			if (curl_multi_select($multi_handle) != - 1) {
+				do {
+					$mrc = curl_multi_exec($multi_handle, $active);
+				} while ($mrc == CURLM_CALL_MULTI_PERFORM);
+			}
+		}
+		foreach ($urls as $i => $url) {
+			$data[$i] = curl_multi_getcontent($conn[$i]);
+			curl_multi_remove_handle($multi_handle, $conn[$i]);
+			curl_close($conn[$i]);
+		}
+		return $data;
+	}
+	
 	// 替代 scandir, safe_mode
 	public static function scandir($dir) {
 		if(function_exists('scan_dir')) return scandir($dir);

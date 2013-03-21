@@ -157,7 +157,7 @@ define('$APP_PATH', str_replace('\\\\', '/', dirname(__FILE__)).'/');
 \$conf = include $APP_PATH.'conf/conf.php';
 
 // 框架的物理路径
-define('FRAMEWORK_PATH', $APP_PATH.'../XiunoPHP/');
+define('FRAMEWORK_PATH', $APP_PATH.'../xiunophp/');
 
 // 临时目录
 define('FRAMEWORK_TMP_PATH', \$conf['tmp_path']);

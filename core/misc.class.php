@@ -142,12 +142,12 @@ class misc {
 		if($sub < 0) {
 			$format = 'H:i';
 		// todo: 此处可能会有BUG，一年最后一个月
-		} elseif($sub > 31536000) {
-			$format = 'Y-n';
+		/*} elseif($sub > 31536000) {
+			$format = 'Y-n-j';
 		} elseif($sub > 86400) {
-			$format = 'n-j';
+			$format = 'Y-n-j';*/
 		} else {
-			$format = 'n-j';
+			$format = 'Y-n-j';
 		}
 		return date($format);
 	}
@@ -204,11 +204,11 @@ class misc {
 	public static function arrlist_key_values($arrlist, $key, $value) {
 		$return = array();
 		if($key) {
-			foreach($arrlist as $arr) {
+			foreach((array)$arrlist as $arr) {
 				$return[$arr[$key]] = $arr[$value];
 			}
 		} else {
-			foreach($arrlist as $arr) {
+			foreach((array)$arrlist as $arr) {
 				$return[] = $arr[$value];
 			}
 		}

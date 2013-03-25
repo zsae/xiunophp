@@ -117,7 +117,7 @@ class db_mysql implements db_interface {
 		$tablename = $this->tablepre.$table;
 		if(is_array($data)) {
 			
-			// 覆盖主键的值
+			// 覆盖主键的值，以值为准。
 			$data += $keyarr;
 			$s = $this->arr_to_sqladd($data);
 			return $this->query("REPLACE INTO $tablename SET $s", $this->wlink);

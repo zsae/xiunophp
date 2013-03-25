@@ -516,6 +516,7 @@ class core {
 		static $plugins = array();
 		if(!empty($plugins) && !$force) return $plugins;
 		
+		if(empty($conf['plugin_path'])) return array();
 		$path = $conf['plugin_path'];
 		if(!is_dir($path)) return array();
 		$settingfile = $conf['upload_path'].'plugin.json';

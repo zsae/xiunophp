@@ -433,9 +433,16 @@ class misc {
 			return FALSE;
 		}
 	}
-		
 	// 多线程抓取数据，需要CURL支持，一般在命令行下执行，此函数收集互联网，由 xiuno 整理。
 	public static function multi_fetch_url($urls) {
+		if(!function_exists('curl_multi_init')) {
+			$data = array();
+			foreach($urls as $k=>$url) {
+				$data[$k] = self::fetch_url($url);
+			}
+			return $data;
+		}
+
 		$multi_handle = curl_multi_init();
 		foreach ($urls as $i => $url) {
 			$conn[$i] = curl_init($url);
@@ -463,7 +470,7 @@ class misc {
 		}
 		return $data;
 	}
-
+	
 	// 替代 scandir, safe_mode
 	public static function scandir($dir) {
 		if(function_exists('scan_dir')) return scandir($dir);

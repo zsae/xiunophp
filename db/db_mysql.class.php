@@ -494,6 +494,7 @@ class db_mysql implements db_interface {
 		return array($table, $keyarr, $sqladd);
 	}
 	
+	// 最好能保证它能最后析构!
 	public function __destruct() {
 		if(!empty($this->wlink)) {
 			mysql_close($this->wlink);

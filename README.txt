@@ -1,6 +1,12 @@
 XiunoPHP
 ========
 
+<<<<<<< HEAD
+XiunoPHP is a PHP Framework.
+
+
+Document URL: http://www.xiuno.com/doc/xiunophp/
+=======
 XiunoPHP 是一款面向高负载应用的 PHP 开发框架，PHPer 通过它可以快速的简单的开发出高负载项目。
 
 它诞生于 NoSQL 刚刚兴起的时代，从开始就良好的支持 NoSQL DB，比如 MongoDB，当让也可以通过添加驱动文件来支持其他类型的DB。
@@ -10,3 +16,4 @@ XiunoPHP 是一款面向高负载应用的 PHP 开发框架，PHPer 通过它可
 它以行为最小存储单位，这样大大的简化和统一了 DB,CACHE 的接口，并且它引入了单点分发自增ID，让应用不再依赖于DB的 count(), max()，函数，便于分布式程序的设计。
 
 在线文档地址: http://www.xiuno.com/doc/xiunophp/
+>>>>>>> 523422b73e79d0c55d37f90e00a6f90dfd66d2ad

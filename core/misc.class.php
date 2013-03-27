@@ -149,7 +149,7 @@ class misc {
 		} else {
 			$format = 'Y-n-j';
 		}
-		return date($format);
+		return date($format, $time);
 	}
 	
 	public static function humandate($timestamp) {

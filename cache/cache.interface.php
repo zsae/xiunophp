@@ -66,7 +66,7 @@ interface cache_interface {
 	$cache->count('user');
 
 	// 清除所有记录
-	$cache->flush();
+	$cache->truncate();
 */
 
 ?>

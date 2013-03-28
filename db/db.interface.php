@@ -60,11 +60,11 @@ interface db_interface {
 	// 返回结果集
 	public function index_fetch_id($table, $keyname, $cond = array(), $orderby = array(), $start = 0, $limit = 0);
 	
-	// 2.4 新增接口，按照条件更新，不鼓励使用
-	public function index_update($table, $cond, $update);
+	// 批量更新，$lowprority 用来指定优先级，为TRUE时，迅速返回，不返回受影响的行数。
+	public function index_update($table, $cond, $update, $lowprority = FALSE);
 	
-	// 2.4 新增接口，按照条件删除，不鼓励使用
-	public function index_delete($table, $cond);
+	// 批量删除
+	public function index_delete($table, $cond, $lowprority = FALSE);
 		
 	// 2.4 新增接口，原生的API，准确，但速度慢，仅仅在统计或者同步的时候调用。
 	// $key = "$table-$maxcol"

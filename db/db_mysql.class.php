@@ -262,19 +262,21 @@ class db_mysql implements db_interface {
 	}
 	
 	// 根据条件更新，不鼓励使用。
-	public function index_update($table, $cond, $update) {
+	public function index_update($table, $cond, $update, $lowprority = FALSE) {
 		$where = $this->cond_to_sqladd($cond);
 		$set = $this->arr_to_sqladd($update);
 		$table = $this->tablepre.$table;
-		$this->query("UPDATE $table SET $set $where");
+		$sqladd = $lowprority ? 'LOW_PRIORITY' : '';
+		$this->query("UPDATE $sqladd $table SET $set $where");
 		return mysql_affected_rows($this->wlink);
 	}
 	
 	// 根据条件删除，不鼓励使用。
-	public function index_delete($table, $cond) {
+	public function index_delete($table, $cond, $lowprority = FALSE) {
 		$where = $this->cond_to_sqladd($cond);
 		$table = $this->tablepre.$table;
-		$this->query("DELETE FROM $table $where");
+		$sqladd = $lowprority ? 'LOW_PRIORITY' : '';
+		$this->query("DELETE $sqladd FROM $table $where");
 		return mysql_affected_rows($this->wlink);
 	}
 	

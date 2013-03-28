@@ -527,9 +527,9 @@ class core {
 			$conffile = $path.$v.'/conf.php';
 			$pconf = is_file($conffile) ? include($conffile) : array();
 			empty($setting[$v]) && $setting[$v] = array('enable'=>0, 'installed'=>0, 'pluginid'=>0); // 合并
-			$pconf['enable'] = $setting[$v]['enable'];
-			$pconf['installed'] = $setting[$v]['installed'];
-			$pconf['pluginid'] = $setting[$v]['pluginid'];
+			$pconf['enable'] = isset($setting[$v]['enable']) ? $setting[$v]['enable'] : 0;
+			$pconf['installed'] = isset($setting[$v]['installed']) ? $setting[$v]['installed'] : 0;
+			$pconf['pluginid'] = isset($setting[$v]['pluginid']) ? $setting[$v]['pluginid'] : 0;
 			$plugins[$v] = $pconf;
 		}
 		return $plugins;

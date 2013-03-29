@@ -241,18 +241,20 @@ class db_pdo_mysql implements db_interface {
 	}
 	
 	// 根据条件更新，不鼓励使用。
-	public function index_update($table, $cond, $update) {
+	public function index_update($table, $cond, $update, $lowprority = FALSE) {
 		$where = $this->cond_to_sqladd($cond);
 		$set = $this->arr_to_sqladd($update);
 		$table = $this->tablepre.$table;
-		return $this->exec("UPDATE $table SET $set $where");
+		$sqladd = $lowprority ? 'LOW_PRIORITY' : '';
+		return $this->exec("UPDATE $sqladd $table SET $set $where");
 	}
 	
 	// 根据条件删除，不鼓励使用。
-	public function index_delete($table, $cond) {
+	public function index_delete($table, $cond, $lowprority = FALSE) {
 		$where = $this->cond_to_sqladd($cond);
 		$table = $this->tablepre.$table;
-		return $this->exec("DELETE FROM $table $where");
+		$sqladd = $lowprority ? 'LOW_PRIORITY' : '';
+		return $this->exec("DELETE $lowprority FROM $table $where");
 	}
 	
 	public function index_create($table, $index) {

@@ -437,7 +437,8 @@ class php_zip {
 class xn_zip {
 
 	public static function unzip($zipfile, $destpath) {
-		substr($destpath, -1, 1) == '/' && $destpath .= '/';
+		$destpath = str_replace('\\', '/', $destpath);
+		substr($destpath, -1, 1) != '/' && $destpath .= '/';
 		$archive = new php_zip();
 		$tmppath = FRAMEWORK_TMP_TMP_PATH.md5($zipfile).'/';
 		!is_dir($destpath) && mkdir($destpath, 0777);
@@ -453,7 +454,8 @@ class xn_zip {
 	
 	// 不支持对 storage 打包
 	public static function zip($destzip, $srcpath) {
-		substr($srcpath, -1, 1) == '/' && $srcpath .= '/';
+		$destpath = str_replace('\\', '/', $destpath);
+		substr($srcpath, -1, 1) != '/' && $srcpath .= '/';
 		$tmpzip = FRAMEWORK_TMP_TMP_PATH.rand(1, 10000000000).'.tmp.zip';
 		$archive = new php_zip();
 		$archive->zip($srcpath, $tmpzip);

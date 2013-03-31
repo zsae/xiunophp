@@ -552,7 +552,7 @@ class core {
 		$muser = core::model($conf, 'userext', 'uid', 'uid');		// 显式加载 model，不需要配置文件中申明
 	*/
 	public static function model(&$conf, $model, $primarykey = array(), $maxcol = '') {
-		$modelname = $conf['app_id'].'_'.'model_'.$model.'.class.php';
+		$modelname = 'model_'.$model.'.class.php';
 		if(isset($_SERVER['models'][$modelname])) {
 			return $_SERVER['models'][$modelname];
 		}

@@ -454,7 +454,7 @@ class xn_zip {
 	
 	// 不支持对 storage 打包
 	public static function zip($destzip, $srcpath) {
-		$destpath = str_replace('\\', '/', $destpath);
+		$srcpath = str_replace('\\', '/', $srcpath);
 		substr($srcpath, -1, 1) != '/' && $srcpath .= '/';
 		$tmpzip = FRAMEWORK_TMP_TMP_PATH.rand(1, 10000000000).'.tmp.zip';
 		$archive = new php_zip();

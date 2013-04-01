@@ -360,7 +360,9 @@ class misc {
 	}
 	
 	// SAE 重载了 file_get_contents()
-	public static function fetch_url($url, $timeout = 5, $post = '', $cookie = '') {
+	public static function fetch_url($url, $timeout = 5, $post = '', $cookie = '', $deep = 0) {
+		if($deep > 5) throw new Exception('超出 fetch_url() 最大递归深度！');
+		
 		if(ini_get('allow_url_fopen') && empty($post)) {
 			// 尝试连接
 			$opts = array ('http'=>array('method'=>'GET', 'timeout'=>$timeout)); 
@@ -411,6 +413,12 @@ class misc {
 					while (!feof($fp)) {
 						if(($header = @fgets($fp)) && ($header == "\r\n" ||  $header == "\n")) {
 							break;
+							//Location: http://plugin.xiuno.net/upload/plugin/66/b0c35647c63b8b880766b50c06586c13.zip
+						} else {
+							if(strtolower(substr($header, 0, 9)) == 'location:') {
+								$location = trim(substr($header, 9));
+								return self::fetch_url($location, $timeout, $post, $cookie, $deep + 1);
+							}
 						}
 					}
 		
@@ -433,6 +441,7 @@ class misc {
 			return FALSE;
 		}
 	}
+	
 	// 多线程抓取数据，需要CURL支持，一般在命令行下执行，此函数收集互联网，由 xiuno 整理。
 	public static function multi_fetch_url($urls) {
 		if(!function_exists('curl_multi_init')) {

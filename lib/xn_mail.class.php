@@ -2530,7 +2530,6 @@ class phpmailerException extends Exception {
 }
 
 
-<?php
 /*~ class.smtp.php
 .---------------------------------------------------------------------------.
 |  Software: PHPMailer - PHP email class                                    |

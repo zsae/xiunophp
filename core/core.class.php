@@ -323,9 +323,9 @@ class core {
 	 */
 	private static function fix_iis_request() {
 		if(isset($_SERVER['HTTP_X_REWRITE_URL'])) {
-			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_X_REWRITE_URL'];
+			$_SERVER['REQUEST_URI'] = &$_SERVER['HTTP_X_REWRITE_URL'];
 		} else if(isset($_SERVER['HTTP_REQUEST_URI'])) {
-			$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_REQUEST_URI'];
+			$_SERVER['REQUEST_URI'] = &$_SERVER['HTTP_REQUEST_URI'];
 		} else {
 			if(isset($_SERVER['SCRIPT_NAME'])) {
 				$_SERVER['HTTP_REQUEST_URI'] = $_SERVER['SCRIPT_NAME'];
@@ -334,8 +334,6 @@ class core {
 			}
 			if(isset($_SERVER['QUERY_STRING'])) {
 				$_SERVER['REQUEST_URI'] = '?' . $_SERVER['QUERY_STRING'];
-			} elseif(isset($_SERVER['HTTP_REQUEST_URI'])) {
-				$_SERVER['REQUEST_URI'] = $_SERVER['HTTP_REQUEST_URI'];
 			} else {
 				$_SERVER['REQUEST_URI'] = '';
 			}

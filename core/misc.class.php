@@ -104,7 +104,7 @@ class misc {
 		return $hash == self::form_hash($auth_key);
 	}
 	
-	// 返回格式：http://www.domain.com/blog/
+	// 返回格式：http://www.domain.com/blog/，这里不考虑 https://
 	public static function get_url_path() {
 		$port = core::gpc('SERVER_PORT', 'S');
 		//$portadd = ($port == 80 ? '' : ':'.$port);

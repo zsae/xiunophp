@@ -81,10 +81,10 @@ class template {
 				$plugins = core::get_plugins($this->conf);
 				$pluginnames = array_keys($plugins);
 				foreach($pluginnames as $v) {
-					$path = $this->conf['plugin_path'].$v;
+					$path = $this->conf['plugin_path'].$v.'/';
 					// 如果有相关的 app path, 这只读取该目录
 					if(is_dir($path.$this->conf['app_id'])) {
-						$path = $path.$this->conf['app_id'];
+						$path = $path.$this->conf['app_id'].'/';
 					}
 					$file = $path.$filename;
 					if(is_file($file)) {
@@ -234,7 +234,7 @@ class template {
 			$pluginnames = array_keys($plugins);
 			foreach($pluginnames as $v) {
 				// 如果有相关的 app path, 这只读取该目录
-				$path = $this->conf['plugin_path'].$v;
+				$path = $this->conf['plugin_path'].$v.'/';
 				$file = $path.$filename;
 				if(is_file($file)) {
 					break;

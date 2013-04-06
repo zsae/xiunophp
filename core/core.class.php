@@ -448,10 +448,10 @@ class core {
 		$pluginnames = array_keys($plugins);
 		foreach($pluginnames as $v) {
 			$path = $conf['plugin_path'].$v;
-			if(!is_file($path.$hookfile)) continue;
+			if(!is_file($path.'/'.$hookfile)) continue;
 			if(empty($plugins[$v]) || empty($plugins[$v]['enable'])) continue;
 			
-			$s2 = file_get_contents($path.$hookfile);
+			$s2 = file_get_contents($path.'/'.$hookfile);
 			
 			// 去掉第一行 
 			$s2 = preg_replace('#^<\?php\s*exit;\?>\s{0,2}#i', '', $s2);
@@ -665,10 +665,10 @@ class core {
 				$plugins = core::get_plugins($conf);
 				$pluginnames = array_keys($plugins);
 				foreach($pluginnames as $v) {
-					// 如果有相关的 app path, 这只读取该目录
-					$path = $conf['plugin_path'].$v;
+					// 如果有相关的 app path, 这只读取该目录, plugin/xxx/abc_control.class.php, plugin/xxx/admin/abc_control.class.php
+					$path = $conf['plugin_path'].$v.'/';
 					if(is_dir($path.$this->conf['app_id'])) {
-						$path = $path.$this->conf['app_id'];
+						$path = $path.$this->conf['app_id'].'/';
 					}
 					$controlfile = $path."{$control}_control.class.php";
 					if(is_file($controlfile)) {
@@ -690,7 +690,6 @@ class core {
 			core::process_include($conf, $s);
 			$s = preg_replace('#\t*\/\/\s*hook\s+([^\s]+)#ies', "core::process_hook(\$conf, '\\1')", $s);
 			core::process_urlrewrite($conf, $s);
-			
 			file_put_contents($objfile, $s);
 		}
 		

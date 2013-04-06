@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (C) xiuno.com
+ * Copyright (C) www.xiuno.com
  */
 
 class template {

@@ -117,7 +117,7 @@ class db_mysql implements db_interface {
 		$tablename = $this->tablepre.$table;
 		if(is_array($data)) {
 			
-			// 覆盖主键的值，以值为准。
+			// 以值为准。
 			$data += $keyarr;
 			$s = $this->arr_to_sqladd($data);
 			return $this->query("REPLACE INTO $tablename SET $s", $this->wlink);
@@ -126,7 +126,7 @@ class db_mysql implements db_interface {
 		}
 	}
 	
-	// update 整行更新
+	// update 整行更新，可以用来修改主键
 	public function update($key, $data) {
 		list($table, $keyarr, $sqladd) = $this->parse_key($key);
 		$tablename = $this->tablepre.$table;

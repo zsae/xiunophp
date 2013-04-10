@@ -11,24 +11,30 @@ if(!isset($_SERVER['time'])) {
 
 class log {
 	public static function write($s, $file = 'phperror.php') {
+		$s = self::safe_str($s);
+		$ip = $_SERVER['ip'];
+		$time = $_SERVER['time_fmt'];
+		$url = $_SERVER['REQUEST_URI'];
+		$url = self::safe_str($url);
+		$s = '<?php exit;?>'."	$time	$ip	$url	$s	\r\n";
+		self::real_write($s, $file);
+		return TRUE;
+	}
+	
+	// 直接写入
+	public static function real_write($s, $file = 'phperror.php') {
 		if(IN_SAE) {
 			sae_set_display_errors(false);
 			sae_debug($s);
 			return TRUE;
 		}
 		$logpath = FRAMEWORK_LOG_PATH;
-		$s = self::safe_str($s);
 		$logfile = $logpath.$file;
-		$ip = $_SERVER['ip'];
-		$time = $_SERVER['time_fmt'];
-		$url = $_SERVER['REQUEST_URI'];
-		$url = self::safe_str($url);
-		
 		$fp = fopen($logfile, 'ab+');
 		if(!$fp) {
 			throw new Exception('写入日志失败，可能磁盘已满，或者文件'.$logfile.'不可写。');
 		}
-		fwrite($fp, '<?php exit;?>'."	$time	$ip	$url	$s	\r\n");
+		fwrite($fp, $s);
 		fclose($fp);
 		return TRUE;
 	}
@@ -47,6 +53,13 @@ class log {
 		$processtime = number_format(microtime(1) - $_SERVER['time'], 3, '.', '');
 		empty($_SERVER['trace']) && $_SERVER['trace'] = '';
 		$_SERVER['trace'] .= "$s - $processtime\r\n";
+	}
+	
+	// 保存 trace
+	public static function trace_save() {
+		$s = "\r\n\r\n---------------------------------------------------------------------------------\r\n<?php exit;?>\r\n---------------------------------------------------------------------------------\r\n$_SERVER[REQUEST_URI]\r\nPOST:".print_r($_POST, 1)."\r\nSQL:".print_r($_SERVER['sqls'], 1)."\r\n";
+		$s .= $_SERVER['trace'];
+		self::real_write($s, 'trace.php');
 	}
 }
 ?>

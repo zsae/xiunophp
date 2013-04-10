@@ -215,11 +215,9 @@ class core {
 			// 此处增加了方便，未加载插件，只有一些特殊的场合使用，比如安装程序。建议采用 core::model($conf, 'user'); 的方式，尽量避免 $user = new user($conf);
 			global $conf;
 			if(!class_exists($classname)) {
-				foreach($conf['model_path'] as $path) {
-					if(is_file($path."$classname.class.php")) {
-						include_once $path."$classname.class.php";
-						break;
-					}
+				$modelfile = core::model_file($conf, $classname);
+				if(is_file($modelfile)) {
+					include_once $modelfile;
 				}
 			}
 			if(!class_exists($classname, false)) {
@@ -568,35 +566,7 @@ class core {
 				return $new;
 			// 搜索 model_path, plugin_path
 			} else {
-				$modelfile = $conf['tmp_path'].$modelname;
-				if((!is_file($modelfile) || DEBUG > 1) && !IN_SAE) {
-					// 开始从以下路径查找 model： model, upload/plugin/*/
-					$orgfile = '';
-					foreach($conf['model_path'] as &$path) {
-						if(is_file($path.$model.'.class.php')) {
-							$orgfile = $path.$model.'.class.php';
-							break;
-						}
-					}
-					if(empty($orgfile) && empty($conf['disable_plugin'])) {
-						$plugins = self::get_plugins($conf);
-						$pluginnames = array_keys($plugins);
-						foreach($pluginnames as &$v) {
-							$path = $conf['plugin_path'].$v;
-							if(is_file($path."$model.class.php")) {
-								$orgfile = $path."$model.class.php";
-								break;
-							}
-						}
-					}
-					if(empty($orgfile)) {
-						return FALSE;
-					}
-					$s = file_get_contents($orgfile);
-					$s = preg_replace('#\t*\/\/\s*hook\s+([^\s]+)#ies', "core::process_hook(\$conf, '\\1')", $s);
-					file_put_contents($modelfile, $s);
-				}
-				
+				$modelfile = self::model_file($conf, $model);
 				include_once $modelfile;
 				$new = new $model($conf);
 				$_SERVER['models'][$modelname] = $new;
@@ -612,6 +582,39 @@ class core {
 			$_SERVER['models'][$modelname] = $new;
 			return $new;
 		}
+	}
+	
+	public static function model_file($conf, $model) {
+		$modelname = 'model_'.$model.'.class.php';
+		$modelfile = $conf['tmp_path'].$modelname;
+		if((!is_file($modelfile) || DEBUG > 1) && !IN_SAE) {
+			// 开始从以下路径查找 model： model, upload/plugin/*/
+			$orgfile = '';
+			foreach($conf['model_path'] as &$path) {
+				if(is_file($path.$model.'.class.php')) {
+					$orgfile = $path.$model.'.class.php';
+					break;
+				}
+			}
+			if(empty($orgfile) && empty($conf['disable_plugin'])) {
+				$plugins = self::get_plugins($conf);
+				$pluginnames = array_keys($plugins);
+				foreach($pluginnames as &$v) {
+					$path = $conf['plugin_path'].$v;
+					if(is_file($path."$model.class.php")) {
+						$orgfile = $path."$model.class.php";
+						break;
+					}
+				}
+			}
+			if(empty($orgfile)) {
+				return FALSE;
+			}
+			$s = file_get_contents($orgfile);
+			$s = preg_replace('#\t*\/\/\s*hook\s+([^\s]+)#ies', "core::process_hook(\$conf, '\\1')", $s);
+			file_put_contents($modelfile, $s);
+		}
+		return $modelfile;
 	}
 		
 	public static function init() {

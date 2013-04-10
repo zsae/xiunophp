@@ -597,7 +597,7 @@ class core {
 					file_put_contents($modelfile, $s);
 				}
 				
-				include $modelfile;
+				include_once $modelfile;
 				$new = new $model($conf);
 				$_SERVER['models'][$modelname] = $new;
 				return $new;

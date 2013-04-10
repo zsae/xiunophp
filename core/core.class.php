@@ -561,7 +561,7 @@ class core {
 				$new = new base_model($conf);
 				$new->table = $arr[0];
 				$new->primarykey = (array)$arr[1];
-				$new->maxcol = $arr[2];
+				$new->maxcol = isset($arr[2]) ? $arr[2] : '';
 				$_SERVER['models'][$modelname] = $new;
 				return $new;
 			// 搜索 model_path, plugin_path

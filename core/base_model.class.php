@@ -292,6 +292,7 @@ class base_model {
 	}
 	
 	/*
+		此接口中的 $key 参数格式不同于 db , cache 中的 get()
 		获取一行数据：
 		$this->user->get(1);			// 如果 primary key 只有一列
 		$this->user->get(array(1, 2));		// 如果 primary key 多列	
@@ -306,6 +307,7 @@ class base_model {
 	}
 	
 	/*
+		此接口中的 $key 参数格式不同于 db , cache 中的 set()
 		设置一行数据：
 		$this->user->set(1, array('username'=>'zhangsan', 'email'=>'zhangsan@gmail.com'));
 		$this->user->set(array(1, 2), array('username'=>'zhangsan', 'email'=>'zhangsan@gmail.com'));

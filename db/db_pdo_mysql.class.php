@@ -67,7 +67,9 @@ class db_pdo_mysql implements db_interface {
 	        }
 	        //$link->setFetchMode(PDO::FETCH_ASSOC);
 		if($charset) {
-			 $link->query('SET NAMES '.$charset);  
+			 $link->query('SET NAMES '.$charset.', sql_mode=""');  
+		} else {
+			 $link->query('SET sql_mode=""');  
 		}
 		return $link;
 	}
@@ -271,16 +273,21 @@ class db_pdo_mysql implements db_interface {
 		return $this->query("ALTER TABLE $table DROP INDEX $keyname");
 	}
 	
-	// 返回的是结果集
-	public function query($sql) {
-		$r = $this->wlink->query($sql);
-		defined('DEBUG') && DEBUG && isset($_SERVER['sqls']) && count($_SERVER['sqls']) < 1000 && $_SERVER['sqls'][] = htmlspecialchars(stripslashes($sql));// fixed: 此处导致的轻微溢出后果很严重，已经修正。
-		return $r;
-		/*
-		if(!$result) {
-			$error = $this->rlink->errorInfo();
-			throw new Exception("Errno: $error[0] <br /> ".(isset($error[2]) ? "Errstr: $error[2]" : '')." <br />SQL: $sql");
-		}*/
+	// 返回的是结果集，判断是否为写入
+	public function query($sql, $link = NULL) {
+		empty($link) && $link = $this->wlink;
+		$type = strtolower(substr($sql, 0, 4));
+		if($type == 'sele' || $type == 'show') {
+			$result = $link->query($sql);
+			defined('DEBUG') && DEBUG && isset($_SERVER['sqls']) && count($_SERVER['sqls']) < 1000 && $_SERVER['sqls'][] = htmlspecialchars(stripslashes($sql));// fixed: 此处导致的轻微溢出后果很严重，已经修正。
+		} else {
+			$result = $link->exec($sql);
+		}
+		if($result === FALSE) {
+			$error = $link->errorInfo();
+			throw new Exception('MySQL Query Error:'.$sql.' '.(isset($error[2]) ? "Errstr: $error[2]" : ''));
+		}
+		return $result;
 	}
 	
 	// 返回行数

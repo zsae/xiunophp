@@ -216,7 +216,7 @@ class core {
 			global $conf;
 			if(!class_exists($classname)) {
 				$modelfile = core::model_file($conf, $classname);
-				if(is_file($modelfile)) {
+				if($modelfile && is_file($modelfile)) {
 					include_once $modelfile;
 				}
 			}
@@ -567,10 +567,14 @@ class core {
 			// 搜索 model_path, plugin_path
 			} else {
 				$modelfile = self::model_file($conf, $model);
-				include_once $modelfile;
-				$new = new $model($conf);
-				$_SERVER['models'][$modelname] = $new;
-				return $new;
+				if($modelfile) {
+					include_once $modelfile;
+					$new = new $model($conf);
+					$_SERVER['models'][$modelname] = $new;
+					return $new;
+				} else {
+					throw new Exception("Not found model: $model.");
+				}
 			}
 			//throw new Exception("$model 在配置文件中的 model_map 中没有定义过。");
 		// 显式加载 model

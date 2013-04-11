@@ -672,8 +672,8 @@ class core {
 				foreach($pluginnames as $v) {
 					// 如果有相关的 app path, 这只读取该目录, plugin/xxx/abc_control.class.php, plugin/xxx/admin/abc_control.class.php
 					$path = $conf['plugin_path'].$v.'/';
-					if(is_dir($path.$this->conf['app_id'])) {
-						$path = $path.$this->conf['app_id'].'/';
+					if(is_dir($path.$conf['app_id'])) {
+						$path = $path.$conf['app_id'].'/';
 					}
 					$controlfile = $path."{$control}_control.class.php";
 					if(is_file($controlfile)) {

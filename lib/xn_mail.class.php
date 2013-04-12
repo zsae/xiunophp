@@ -3366,6 +3366,7 @@ class xn_mail {
 		$mail->Password   = $smtp['pass'];        // SMTP account password
 		$mail->Timeout    = 5;	// 
 		$mail->CharSet    = 'UTF-8';
+		$mail->ContentType   = 'text/html';
 		
 		//$fromemail = $this->conf['reg_email_user'].'@'.$this->conf['reg_email_host'];
 		

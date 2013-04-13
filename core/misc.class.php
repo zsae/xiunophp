@@ -326,7 +326,7 @@ class misc {
 	public static function is_robot() {
 		$robots = array('robot', 'spider', 'slurp');
 		foreach($robots as $robot) {
-			if(strpos($_SERVER['HTTP_USER_AGENT'], $robot) !== FALSE) {
+			if(strpos(core::gpc('HTTP_USER_AGENT', 'S'), $robot) !== FALSE) {
 				return TRUE;
 			}
 		}

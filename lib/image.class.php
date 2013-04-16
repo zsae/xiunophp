@@ -32,7 +32,7 @@ class image {
 	 */
 	public static function thumb($sourcefile, $destfile, $forcedwidth = 80, $forcedheight = 80) {
 		$return = array('filesize'=>0, 'width'=>0, 'height'=>0);
-		$imgcomp = 25;
+		$imgcomp = 15;
 		$destext = strtolower(substr(strrchr($destfile, '.'), 1));
 		if(!in_array($destext, array('gif', 'jpg', 'bmp', 'png'))) {
 			return $return;

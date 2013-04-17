@@ -127,11 +127,11 @@ class db_saekv implements db_interface {
 		return array();
 	}
 	
-	public function index_update($table, $cond, $update) {
+	public function index_update($table, $cond, $update, $lowprority = FALSE) {
 		return 0;
 	}
 	
-	public function index_delete($table, $cond) {
+	public function index_delete($table, $cond, $lowprority = FALSE) {
 		return 0;
 	}
 	

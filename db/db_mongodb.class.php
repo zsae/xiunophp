@@ -244,7 +244,7 @@ class db_mongodb implements db_interface {
 	}
 	
 	// 2.4 新增接口, 根据条件更新，不鼓励使用。
-	public function index_update($table, $cond, $update, $lowprority = FALSE) {
+	public function index_update($table, $cond, $update, $lowprority = FALSE, $limit = 0) {
 		$cond = $this->cond_to_mongo($cond);
 		$coll = $this->wdb->selectCollection($table);
 		$r = $coll->update($cond, array('$set'=>$update), array('safe'=>1, 'multiple'=>1));
@@ -252,7 +252,7 @@ class db_mongodb implements db_interface {
 	}
 	
 	// 2.4 新增接口, 根据条件删除，不鼓励使用。
-	public function index_delete($table, $cond, $lowprority = FALSE) {
+	public function index_delete($table, $cond, $lowprority = FALSE, $limit = 0) {
 		$cond = $this->cond_to_mongo($cond);
 		$coll = $this->wdb->selectCollection($table);
 		$r = $coll->remove($cond);

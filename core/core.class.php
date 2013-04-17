@@ -129,8 +129,12 @@ class core {
 			//header("Vary: Accept-Encoding");	// 下载的时候，IE 6 会直接输出脚本名，而不是文件名！非常诡异！估计是压缩标志混乱。
 			header("Content-Length: ".strlen($s));
         	} else {
-        		header("Content-Encoding: none");
-               		header("Content-Length: ".strlen($s));
+        		if(ini_get('zlib.output_compression')) {
+        			header("Content-Encoding: gzip");
+        		} else {
+        			header("Content-Encoding: none");
+               			header("Content-Length: ".strlen($s));
+        		}
         	}
         	return $s;
         }

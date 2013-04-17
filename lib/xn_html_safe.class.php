@@ -1570,6 +1570,10 @@ class HTML_Safe
                 if (strpos($name, 'on') === 0) {
                     continue;
                 }
+                // fixed by xiuno, reported by aha. 
+                if($name == 'allowsscriptaccess' && $value != 'no') {
+                	$value = 'no';
+                }
                 if (strpos($name, 'data') === 0) {
                     continue;
                 }

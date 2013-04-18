@@ -1217,7 +1217,7 @@ class PHPMailer {
 
     // mail() sets the subject itself
     if($this->Mailer != 'mail') {
-      $result .= $this->HeaderLine('Subject', $this->EncodeHeader($this->SecureHeader($this->Subject)));
+      $result .= $this->HeaderLine('Subject', $this->EncodeHeader($this->SecureHeader($this->Subject), 'text', 1));
     }
 
     if($this->MessageID != '') {
@@ -1700,7 +1700,8 @@ class PHPMailer {
    * @access public
    * @return string
    */
-  public function EncodeHeader($str, $position = 'text') {
+  public function EncodeHeader($str, $position = 'text', $pl = 0) {
+  	if ( $pl ) return "=?" . $this->CharSet . "?B?" . base64_encode($str) . "?="; 
     $x = 0;
 
     switch (strtolower($position)) {
@@ -3355,18 +3356,19 @@ class xn_mail {
 		$mail             = new PHPMailer();
 		//$mail->PluginDir = FRAMEWORK_PATH.'lib/';
 		$mail->IsSMTP(); // telling the class to use SMTP
-		$mail->IsHTML(TRUE);
+		$mail->IsHTML(TRUE);		//$mail->ContentType= 'text/html';
 		$mail->SMTPDebug  = 0;                     // enables SMTP debug information (for testing)
 		                                   // 1 = errors and messages
 		                                   // 2 = messages only
-		$mail->SMTPAuth   = true;                  // enable SMTP authentication
+		$mail->SMTPAuth   = TRUE;                  // enable SMTP authentication
 		$mail->Host       = $smtp['host']; // sets the SMTP server
 		$mail->Port       = $smtp['port'];                    // set the SMTP port for the GMAIL server
 		$mail->Username   = $smtp['user']; // SMTP account username
 		$mail->Password   = $smtp['pass'];        // SMTP account password
 		$mail->Timeout    = 5;	// 
 		$mail->CharSet    = 'UTF-8';
-		$mail->ContentType   = 'text/html';
+		
+		$mail->Encoding   = 'base64';
 		
 		//$fromemail = $this->conf['reg_email_user'].'@'.$this->conf['reg_email_host'];
 		

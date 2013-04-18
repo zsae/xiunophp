@@ -416,7 +416,7 @@ class db_mysql implements db_interface {
 		$query = mysql_query("SELECT count FROM {$this->tablepre}framework_count WHERE name='$key'", $this->xlink);
 		if($query) {
 			$count = $this->result($query, 0);
-		} elseif(mysql_errno($this->rlink) == 1146) {
+		} elseif(mysql_errno($this->xlink) == 1146) {
 			$this->query("CREATE TABLE {$this->tablepre}framework_count (
 				`name` char(32) NOT NULL default '',
 				`count` int(11) unsigned NOT NULL default '0',
@@ -443,7 +443,7 @@ class db_mysql implements db_interface {
 		$query = mysql_query("SELECT maxid FROM {$this->tablepre}framework_maxid WHERE name='$table'", $this->xlink);
 		if($query) {
 			$maxid = $this->result($query, 0);
-		} elseif(mysql_errno($this->rlink) == 1146) {
+		} elseif(mysql_errno($this->xlink) == 1146) {
 			$this->query("CREATE TABLE `{$this->tablepre}framework_maxid` (
 				`name` char(32) NOT NULL default '',
 				`maxid` int(11) unsigned NOT NULL default '0',

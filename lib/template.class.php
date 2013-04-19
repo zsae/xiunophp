@@ -12,7 +12,9 @@ class template {
 	
 	// 每个模板目录对应一个配置文件！
 	
-	private $var_regexp = "\@?\\\$[a-zA-Z_]\w*(?:\[[\w\.\"\'\[\]\$]+\])*";
+	// $abc[a][b][$c] 合法
+	// $abc[$a[b]]   不合法
+	private $var_regexp = "\@?\\\$[a-zA-Z_]\w*(?:\[[\w\.\"\'\$]+\])*";// \[\]
 	private $vtag_regexp = "\<\?=(\@?\\\$[a-zA-Z_]\w*(?:\[[\w\.\"\'\[\]\$]+\])*)\?\>";
 	private $const_regexp = "\{([\w]+)\}";
 	/*private $isset_regexp = '<\?php echo isset\(.+?\) \? (?:.+?) : \'\';\?>';*/

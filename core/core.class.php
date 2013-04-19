@@ -525,7 +525,7 @@ class core {
 		$arr = self::get_paths($path);
 		foreach($arr as $v) {
 			$conffile = $path.$v.'/conf.php';
-			$pconf = is_file($conffile) ? include($conffile) : array();
+			$pconf = is_file($conffile) ? (array)include($conffile) : array();
 			!isset($pconf['enable']) && $pconf['enable'] = isset($setting[$v]['enable']) ? $setting[$v]['enable'] : 0;
 			!isset($pconf['installed']) && $pconf['installed'] = isset($setting[$v]['installed']) ? $setting[$v]['installed'] : 0;
 			!isset($pconf['pluginid']) && $pconf['pluginid'] = isset($setting[$v]['pluginid']) ? $setting[$v]['pluginid'] : 0;

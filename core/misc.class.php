@@ -227,6 +227,7 @@ class misc {
 	// 将 key 更换为某一列的值，在对多维数组排序后，数字key会丢失，需要此函数
 	public static function arrlist_change_key(&$arrlist, $key) {
 		$return = array();
+		if(empty($arrlist)) return $return;
 		foreach($arrlist as &$arr) {
 			$return[$arr[$key]] = $arr;
 		}

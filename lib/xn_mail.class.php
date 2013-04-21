@@ -53,7 +53,7 @@ class PHPMailer {
    * Sets the CharSet of the message.
    * @var string
    */
-  public $CharSet           = 'iso-8859-1';
+  public $CharSet           = 'UTF-8';
 
   /**
    * Sets the Content-type of the message.
@@ -626,7 +626,7 @@ class PHPMailer {
         } else {
           $mailHeader .= $this->HeaderLine("To", "undisclosed-recipients:;");
         }
-        $mailHeader .= $this->HeaderLine('Subject', $this->EncodeHeader($this->SecureHeader(trim($this->Subject))));
+        $mailHeader .= $this->HeaderLine('Subject', $this->EncodeHeader($this->SecureHeader(trim($this->Subject)), 'text', 1));
         // if(count($this->cc) > 0) {
             // $mailHeader .= $this->AddrAppend("Cc", $this->cc);
         // }
@@ -634,7 +634,7 @@ class PHPMailer {
 
       // digitally sign with DKIM if enabled
       if ($this->DKIM_domain && $this->DKIM_private) {
-        $header_dkim = $this->DKIM_Add($this->MIMEHeader, $this->EncodeHeader($this->SecureHeader($this->Subject)), $this->MIMEBody);
+        $header_dkim = $this->DKIM_Add($this->MIMEHeader, $this->EncodeHeader($this->SecureHeader($this->Subject), 'text', 1), $this->MIMEBody);
         $this->MIMEHeader = str_replace("\r\n", "\n", $header_dkim) . $this->MIMEHeader;
       }
 
@@ -746,13 +746,13 @@ class PHPMailer {
       ini_set('sendmail_from', $this->Sender);
       if ($this->SingleTo === true && count($toArr) > 1) {
         foreach ($toArr as $key => $val) {
-          $rt = @mail($val, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
+          $rt = @mail($val, $this->EncodeHeader($this->SecureHeader($this->Subject), 'text', 1), $body, $header, $params);
           // implement call back function if it exists
           $isSent = ($rt == 1) ? 1 : 0;
           $this->doCallback($isSent, $val, $this->cc, $this->bcc, $this->Subject, $body);
         }
       } else {
-        $rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
+        $rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject), 'text', 1), $body, $header, $params);
         // implement call back function if it exists
         $isSent = ($rt == 1) ? 1 : 0;
         $this->doCallback($isSent, $to, $this->cc, $this->bcc, $this->Subject, $body);
@@ -760,13 +760,13 @@ class PHPMailer {
     } else {
       if ($this->SingleTo === true && count($toArr) > 1) {
         foreach ($toArr as $key => $val) {
-          $rt = @mail($val, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
+          $rt = @mail($val, $this->EncodeHeader($this->SecureHeader($this->Subject), 'text', 1), $body, $header, $params);
           // implement call back function if it exists
           $isSent = ($rt == 1) ? 1 : 0;
           $this->doCallback($isSent, $val, $this->cc, $this->bcc, $this->Subject, $body);
         }
       } else {
-        $rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject)), $body, $header, $params);
+        $rt = @mail($to, $this->EncodeHeader($this->SecureHeader($this->Subject), 'text', 1), $body, $header, $params);
         // implement call back function if it exists
         $isSent = ($rt == 1) ? 1 : 0;
         $this->doCallback($isSent, $to, $this->cc, $this->bcc, $this->Subject, $body);
@@ -1238,7 +1238,7 @@ class PHPMailer {
 
     // Add custom headers
     for($index = 0; $index < count($this->CustomHeader); $index++) {
-      $result .= $this->HeaderLine(trim($this->CustomHeader[$index][0]), $this->EncodeHeader(trim($this->CustomHeader[$index][1])));
+      $result .= $this->HeaderLine(trim($this->CustomHeader[$index][0]), $this->EncodeHeader(trim($this->CustomHeader[$index][1]), 'text', 1));
     }
     if (!$this->sign_key_file) {
       $result .= $this->HeaderLine('MIME-Version', '1.0');
@@ -1701,7 +1701,7 @@ class PHPMailer {
    * @return string
    */
   public function EncodeHeader($str, $position = 'text', $pl = 0) {
-  	if ( $pl ) return "=?" . $this->CharSet . "?B?" . base64_encode($str) . "?="; 
+    //if ( $pl ) return "=?" . $this->CharSet . "?B?" . base64_encode($str) . "?="; 
     $x = 0;
 
     switch (strtolower($position)) {
@@ -3353,6 +3353,13 @@ class xn_mail {
 		xn_mail::send($smtp, $username, $email, $subject, $message);
 	*/
 	public static function send($smtp, $username, $email, $subject, $message) {
+		// 部分 SMTP 不支持UTF-8
+		if(in_array($smtp, array('smtp.126.com', 'smtp.163.com'))) {
+			$charset = 'GBK';
+		} else {
+			$charset = 'UTF-8';
+		}
+		$charset = 'GBK';
 		$mail             = new PHPMailer();
 		//$mail->PluginDir = FRAMEWORK_PATH.'lib/';
 		$mail->IsSMTP(); // telling the class to use SMTP
@@ -3366,10 +3373,12 @@ class xn_mail {
 		$mail->Username   = $smtp['user']; // SMTP account username
 		$mail->Password   = $smtp['pass'];        // SMTP account password
 		$mail->Timeout    = 5;	// 
-		$mail->CharSet    = 'UTF-8';
+		$mail->CharSet    = $charset;
 		
 		$mail->Encoding   = 'base64';
 		
+		$subject = $charset == 'GBK' ? iconv('UTF-8', 'GBK', $subject) : $subject;
+		$message = $charset == 'GBK' ? iconv('UTF-8', 'GBK', $message) : $message;
 		//$fromemail = $this->conf['reg_email_user'].'@'.$this->conf['reg_email_host'];
 		
 		$mail->SetFrom($smtp['email'], $email);

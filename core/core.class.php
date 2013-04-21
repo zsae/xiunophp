@@ -170,8 +170,7 @@ class core {
 		
 		// 最低版本需求判断
 		PHP_VERSION < '5.0' && exit('Required PHP version 5.0.* or later.');
-		// 输出 HTTP 头
-		// header('Content-Type: text/html; charset=UTF-8');
+		
 	}
 
 	public static function init_supevar() {
@@ -645,6 +644,7 @@ class core {
 			header("Expires: 0");
 			header("Cache-Control: private, post-check=0, pre-check=0, max-age=0");
 			header("Pragma: no-cache");
+			header('Content-Type: text/html; charset=UTF-8');
 		}
 		
 	}

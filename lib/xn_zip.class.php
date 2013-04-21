@@ -22,8 +22,9 @@ class php_zip {
 		{
 			if(!file_exists($file) || !is_file($file)){ continue; }
 			
-			$fd	   = fopen($file, "rb");
-			$content  = @fread($fd, filesize($file));
+			$fd	  = fopen($file, "rb");
+			$filesize = filesize($file);
+			$content  = $filesize ? fread($fd, $filesize) : '';
 			fclose($fd);
 
 			$file = substr($file, strlen($dir));

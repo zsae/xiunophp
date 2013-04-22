@@ -67,7 +67,7 @@ class misc {
 			$rewritepage = "-$pagename-";
 		} else {
 			$url .= strpos($url, '?') === FALSE ? '?' : '&';
-			$rewritepage = "page=";
+			$rewritepage = "$pagename=";
 		}
 		
 		$s = '';

@@ -16,16 +16,16 @@ class misc {
 		misc::pages('index.php', 100, 1, 20);
 		misc::pages('index.php?a=b', 100, 1, 20);
 	*/
-	public static function pages($url, $totalnum, $page, $pagesize = 20) {
+	public static function pages($url, $totalnum, $page, $pagesize = 20, $pagename = 'page') {
 		// ?xxx.htm 认为也是支持 rewrite 格式的
 		$urladd = '';
 		if(strpos($url, '.htm') !== FALSE) {
 			list($url, $urladd) = explode('.htm', $url);
 			$urladd = '.htm'.$urladd;
-			$rewritepage = '-page-';
+			$rewritepage = "-$pagename-";
 		} else {
 			$url .= strpos($url, '?') === FALSE ? '?' : '&';
-			$rewritepage = 'page=';
+			$rewritepage = "$pagename=";
 		}
 
 		$totalpage = ceil($totalnum / $pagesize);
@@ -58,16 +58,16 @@ class misc {
 	}
 	
 	// 简单的上一页，下一页，比较省资源，不用count(), 推荐使用。
-	public static function simple_pages($url, $totalnum, $page, $pagesize) {
+	public static function simple_pages($url, $totalnum, $page, $pagesize = 20, $pagename = 'page') {
 		// ?xxx.htm 认为也是支持 rewrite 格式的
 		$urladd = '';
 		if(strpos($url, '.htm') !== FALSE) {
 			list($url, $urladd) = explode('.htm', $url);
 			$urladd = '.htm'.$urladd;
-			$rewritepage = '-page-';
+			$rewritepage = "-$pagename-";
 		} else {
 			$url .= strpos($url, '?') === FALSE ? '?' : '&';
-			$rewritepage = 'page=';
+			$rewritepage = "page=";
 		}
 		
 		$s = '';

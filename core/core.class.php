@@ -215,7 +215,8 @@ class core {
 			include FRAMEWORK_PATH.'lib/'.$classname.'.class.php';
 			return class_exists($classname, false);
 		} else {
-			// 此处增加了方便，未加载插件，只有一些特殊的场合使用，比如安装程序。建议采用 core::model($conf, 'user'); 的方式，尽量避免 $user = new user($conf);
+			// 在未 include xxx.class.php 直接 new xxx() 的时候，会跳转到此处。只是在特殊场合（如升级程序）方便使用。
+			// model 调用 model ，采用 core::model($conf, $modelname) 调用，正确的传递 $conf;
 			global $conf;
 			if(!class_exists($classname)) {
 				$modelfile = core::model_file($conf, $classname);

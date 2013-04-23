@@ -3359,7 +3359,7 @@ class xn_mail {
 		} else {
 			$charset = 'UTF-8';
 		}
-		$charset = 'GBK';
+		$charset = 'UTF-8';
 		$mail             = new PHPMailer();
 		//$mail->PluginDir = FRAMEWORK_PATH.'lib/';
 		$mail->IsSMTP(); // telling the class to use SMTP

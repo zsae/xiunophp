@@ -1520,7 +1520,8 @@ class HTML_Safe
      * @var array
      * @access public
      */
-    var $attributes = array('dynsrc', 'id', 'name', );
+    // fixed by xiuno, xss: ajaxdialog ajaxtoggle
+    var $attributes = array('dynsrc', 'id', 'name', 'ajaxdialog', 'ajaxtoggle');
 
     /**
      * List of allowed "namespaced" attributes

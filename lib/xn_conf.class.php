@@ -36,6 +36,7 @@ class xn_conf  {
 		if(!preg_match("#'$k'\s*=>#", $s)) {
 			if(substr($v, 0, 5) != 'array') {
 				$v = var_export($v, 1);
+				$v = preg_replace('#[\\\\]+\'#', '\\\'', $v);
 			}
 			$s = preg_replace('#\);\s*\?>#', "\t'$k' => $v,\r\n);\r\n?>", $s);
 		} else {
@@ -45,6 +46,7 @@ class xn_conf  {
 				$s = preg_replace('#\''.$k.'\'\s*=>\s*\'?\d+\'?,(\s*//[^\r\n]+[\r\n]+)?#is', "'$k' => $v,\\1", $s);
 			} else {
 				$v = var_export($v, 1);
+				$v = preg_replace('#[\\\\]+\'#', '\\\'', $v);
 				$s = preg_replace('#\''.$k.'\'\s*=>\s*\'.*?\',(\s*//[^\r\n]+[\r\n]+)?#is', "'$k' => $v,\\1", $s);
 			}
 		}
